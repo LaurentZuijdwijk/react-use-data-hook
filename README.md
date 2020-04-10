@@ -10,10 +10,21 @@ Just inject a function that returns a Promise with your data.
 
 ```
 npm i react-use-data-hooks
-
-yarn add react-use-data-hooks
-
 ```
+```
+yarn add react-use-data-hooks
+```
+
+## Features
+
+* Stale requests are ignored.
+* Usable for multiple types of components
+* Initial fetch or only on demand
+* Loading field
+* Error field
+* Data field
+* Strongly typed in TS
+* Tested library
 
 ## Quick start
 
@@ -37,4 +48,8 @@ function MyComponent({id}){
 }
 
 ```
+Look at the example in the ./example folder for a type-ahead input field using this hook.
 
+I will update this README to be more complete.
+
+Hope you like this repo and find it useful. If you have any comments or questions, please open a ticket or a PR. Star the repo if you want to show your appreciation. 

@@ -128,4 +128,83 @@ test("should use the useFetchDataHook -- service rejects", function () { return 
         }
     });
 }); });
+test("should use the useFetchDataHook -- cancel slow responses", function () { return __awaiter(void 0, void 0, void 0, function () {
+    var cnt, timeout, dataFn, _a, result, waitForNextUpdate;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                cnt = 0;
+                dataFn = function (id) { return new Promise(function (resolve, reject) {
+                    cnt++;
+                    if (cnt === 1)
+                        timeout = 200;
+                    else
+                        timeout = 100;
+                    setTimeout(function () {
+                        resolve('data' + cnt);
+                    }, timeout);
+                }); };
+                _a = react_hooks_1.renderHook(function () {
+                    return index_1["default"]({ fn: dataFn, initialFetch: true }, 1);
+                }), result = _a.result, waitForNextUpdate = _a.waitForNextUpdate;
+                expect(result.current.loading).toBe(true);
+                expect(result.current.data).toBe(null);
+                expect(result.current.error).toBe(null);
+                react_hooks_1.act(function () {
+                    result.current.refetch();
+                });
+                return [4 /*yield*/, waitForNextUpdate()];
+            case 1:
+                _b.sent();
+                expect(result.current.loading).toBe(false);
+                expect(result.current.error).toBe(null);
+                expect(result.current.data).toBe('data2');
+                return [4 /*yield*/, waitForNextUpdate()];
+            case 2:
+                _b.sent();
+                expect(result.current.loading).toBe(false);
+                expect(result.current.error).toBe(null);
+                expect(result.current.data).toBe('data2');
+                return [2 /*return*/];
+        }
+    });
+}); });
+test("should use the useFetchDataHook -- doesn't reject if cancelled", function () { return __awaiter(void 0, void 0, void 0, function () {
+    var cnt, timeout, dataFn, _a, result, waitForNextUpdate;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                cnt = 0;
+                dataFn = function (id) { return new Promise(function (resolve, reject) {
+                    cnt++;
+                    if (cnt === 1)
+                        timeout = 200;
+                    else
+                        timeout = 100;
+                    setTimeout(function () {
+                        if (cnt === 1)
+                            reject("Oops, error");
+                        else
+                            resolve('data');
+                    }, timeout);
+                }); };
+                _a = react_hooks_1.renderHook(function () {
+                    return index_1["default"]({ fn: dataFn, initialFetch: true }, 1);
+                }), result = _a.result, waitForNextUpdate = _a.waitForNextUpdate;
+                expect(result.current.loading).toBe(true);
+                expect(result.current.data).toBe(null);
+                expect(result.current.error).toBe(null);
+                react_hooks_1.act(function () {
+                    result.current.refetch();
+                });
+                return [4 /*yield*/, waitForNextUpdate()];
+            case 1:
+                _b.sent();
+                expect(result.current.loading).toBe(false);
+                expect(result.current.error).toBe(null);
+                expect(result.current.data).toBe('data');
+                return [2 /*return*/];
+        }
+    });
+}); });
 //# sourceMappingURL=index.test.js.map

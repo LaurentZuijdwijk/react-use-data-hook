@@ -76,7 +76,9 @@ function useFetchDataHook(_a) {
                         return [3 /*break*/, 4];
                     case 3:
                         e_1 = _a.sent();
-                        setError(e_1);
+                        if (!cancelled) {
+                            setError(e_1);
+                        }
                         return [3 /*break*/, 4];
                     case 4:
                         setLoading(false);

@@ -1,12 +1,12 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 
 type useFetchDataHookArguments = {
-  fn: (...args:any) => Promise<any>;
+  fn: (...args: any) => Promise<any>;
   initialFetch?: boolean;
 };
 
 function useFetchDataHook(
-  { fn, initialFetch=true }: useFetchDataHookArguments,
+  { fn, initialFetch = true }: useFetchDataHookArguments,
   ...rest
 ) {
   const [data, setData] = useState(null);
@@ -30,7 +30,9 @@ function useFetchDataHook(
           setData(data);
         }
       } catch (e) {
-        setError(e);
+        if (!cancelled) {
+          setError(e);
+        }
       }
       setLoading(false);
     };

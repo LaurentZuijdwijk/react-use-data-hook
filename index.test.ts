@@ -27,11 +27,11 @@ test("should use the useFetchDataHook -- happy path", async () => {
 });
 
 test("should use the useFetchDataHook -- without initial fetch", async () => {
-  let cnt = 0
-    const dataFn = (id) => {
-        cnt++
-      return Promise.resolve("some data" + cnt);
-  }
+  let cnt = 0;
+  const dataFn = (id) => {
+    cnt++;
+    return Promise.resolve("some data" + cnt);
+  };
   const { result, waitForNextUpdate } = renderHook(() =>
     useFetchDataHook({ fn: dataFn, initialFetch: false })
   );
@@ -58,9 +58,6 @@ test("should use the useFetchDataHook -- without initial fetch", async () => {
   await waitForNextUpdate();
   expect(result.current.data).toBe("some data2");
   expect(result.current.loading).toBe(false);
-
-
-
 });
 
 test("should use the useFetchDataHook -- service rejects", async () => {
@@ -78,4 +75,73 @@ test("should use the useFetchDataHook -- service rejects", async () => {
   expect(result.current.loading).toBe(false);
   expect(result.current.data).toBe(null);
   expect(result.current.error).toBe("Oops, error");
+});
+
+test("should use the useFetchDataHook -- cancel slow responses", async () => {
+  let cnt = 0;
+  let timeout;
+  const dataFn = (id) =>
+    new Promise((resolve, reject) => {
+      cnt++;
+      if (cnt === 1) timeout = 200;
+      else timeout = 100;
+      setTimeout(() => {
+        resolve("data" + cnt);
+      }, timeout);
+    });
+
+  const { result, waitForNextUpdate } = renderHook(() =>
+    useFetchDataHook({ fn: dataFn, initialFetch: true }, 1)
+  );
+
+  expect(result.current.loading).toBe(true);
+  expect(result.current.data).toBe(null);
+  expect(result.current.error).toBe(null);
+
+  act(() => {
+    result.current.refetch();
+  });
+
+  await waitForNextUpdate();
+
+  expect(result.current.loading).toBe(false);
+  expect(result.current.error).toBe(null);
+  expect(result.current.data).toBe("data2");
+
+  await waitForNextUpdate();
+  expect(result.current.loading).toBe(false);
+  expect(result.current.error).toBe(null);
+  expect(result.current.data).toBe("data2");
+});
+
+test("should use the useFetchDataHook -- doesn't reject if cancelled", async () => {
+  let cnt = 0;
+  let timeout;
+  const dataFn = (id) =>
+    new Promise((resolve, reject) => {
+      cnt++;
+      if (cnt === 1) timeout = 200;
+      else timeout = 100;
+      setTimeout(() => {
+        if (cnt === 1) reject("Oops, error");
+        else resolve("data");
+      }, timeout);
+    });
+
+  const { result, waitForNextUpdate } = renderHook(() =>
+    useFetchDataHook({ fn: dataFn, initialFetch: true }, 1)
+  );
+
+  expect(result.current.loading).toBe(true);
+  expect(result.current.data).toBe(null);
+  expect(result.current.error).toBe(null);
+
+  act(() => {
+    result.current.refetch();
+  });
+
+  await waitForNextUpdate();
+  expect(result.current.loading).toBe(false);
+  expect(result.current.error).toBe(null);
+  expect(result.current.data).toBe("data");
 });

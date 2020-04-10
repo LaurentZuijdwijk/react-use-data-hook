@@ -134,16 +134,18 @@ test("should use the useFetchDataHook -- cancel slow responses", function () { r
         switch (_b.label) {
             case 0:
                 cnt = 0;
-                dataFn = function (id) { return new Promise(function (resolve, reject) {
-                    cnt++;
-                    if (cnt === 1)
-                        timeout = 200;
-                    else
-                        timeout = 100;
-                    setTimeout(function () {
-                        resolve('data' + cnt);
-                    }, timeout);
-                }); };
+                dataFn = function (id) {
+                    return new Promise(function (resolve, reject) {
+                        cnt++;
+                        if (cnt === 1)
+                            timeout = 200;
+                        else
+                            timeout = 100;
+                        setTimeout(function () {
+                            resolve("data" + cnt);
+                        }, timeout);
+                    });
+                };
                 _a = react_hooks_1.renderHook(function () {
                     return index_1["default"]({ fn: dataFn, initialFetch: true }, 1);
                 }), result = _a.result, waitForNextUpdate = _a.waitForNextUpdate;
@@ -158,13 +160,13 @@ test("should use the useFetchDataHook -- cancel slow responses", function () { r
                 _b.sent();
                 expect(result.current.loading).toBe(false);
                 expect(result.current.error).toBe(null);
-                expect(result.current.data).toBe('data2');
+                expect(result.current.data).toBe("data2");
                 return [4 /*yield*/, waitForNextUpdate()];
             case 2:
                 _b.sent();
                 expect(result.current.loading).toBe(false);
                 expect(result.current.error).toBe(null);
-                expect(result.current.data).toBe('data2');
+                expect(result.current.data).toBe("data2");
                 return [2 /*return*/];
         }
     });
@@ -175,19 +177,21 @@ test("should use the useFetchDataHook -- doesn't reject if cancelled", function 
         switch (_b.label) {
             case 0:
                 cnt = 0;
-                dataFn = function (id) { return new Promise(function (resolve, reject) {
-                    cnt++;
-                    if (cnt === 1)
-                        timeout = 200;
-                    else
-                        timeout = 100;
-                    setTimeout(function () {
+                dataFn = function (id) {
+                    return new Promise(function (resolve, reject) {
+                        cnt++;
                         if (cnt === 1)
-                            reject("Oops, error");
+                            timeout = 200;
                         else
-                            resolve('data');
-                    }, timeout);
-                }); };
+                            timeout = 100;
+                        setTimeout(function () {
+                            if (cnt === 1)
+                                reject("Oops, error");
+                            else
+                                resolve("data");
+                        }, timeout);
+                    });
+                };
                 _a = react_hooks_1.renderHook(function () {
                     return index_1["default"]({ fn: dataFn, initialFetch: true }, 1);
                 }), result = _a.result, waitForNextUpdate = _a.waitForNextUpdate;
@@ -202,7 +206,7 @@ test("should use the useFetchDataHook -- doesn't reject if cancelled", function 
                 _b.sent();
                 expect(result.current.loading).toBe(false);
                 expect(result.current.error).toBe(null);
-                expect(result.current.data).toBe('data');
+                expect(result.current.data).toBe("data");
                 return [2 /*return*/];
         }
     });

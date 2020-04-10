@@ -1,6 +1,6 @@
 # React-use-data-hook
 
-[![CircleCI](https://img.shields.io/circleci/build/gh/LaurentZuijdwijk/react-use-data-hook?style=for-the-badge)](https://app.circleci.com/pipelines/github/LaurentZuijdwijk/react-use-data-hook) [![Version](https://img.shields.io/github/package-json/version/LaurentZuijdwijk/react-use-data-hook?style=for-the-badge)](https://app.circleci.com/pipelines/github/LaurentZuijdwijk/react-use-data-hook)
+[![CircleCI](https://img.shields.io/circleci/build/gh/LaurentZuijdwijk/react-use-data-hook?style=for-the-badge)](https://app.circleci.com/pipelines/github/LaurentZuijdwijk/react-use-data-hook) [![Version](https://img.shields.io/github/package-json/version/LaurentZuijdwijk/react-use-data-hook?style=for-the-badge)](https://www.npmjs.com/package/react-use-data-hook)
 
 Reusable hook for data retrieval. Can Fetch on mount (optionally) and refetch. 
 

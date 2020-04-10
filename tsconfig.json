@@ -1,0 +1,9 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "outDir": "dist",
+        "sourceMap": true,
+        "lib":["ES2015", "DOM"]
+    },
+    "files":["index.ts", "index.test.ts"]
+}

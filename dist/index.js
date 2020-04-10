@@ -97,3 +97,4 @@ function useFetchDataHook(_a) {
     return { data: data, loading: loading, error: error, refetch: refetch };
 }
 exports["default"] = useFetchDataHook;
+//# sourceMappingURL=index.js.map

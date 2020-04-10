@@ -1,11 +1,11 @@
 {
   "name": "react-use-data-hook",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Hook to fetch and re-fetch data from an api service",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "yarn build && jest index.test.js",
-    "build": "tsc index*ts --lib ES2015"
+    "build": "tsc --project tsconfig.json"
   },
   "repository": {
     "type": "git",
@@ -27,11 +27,11 @@
   "dependencies": {
     "react": "^16.13.1"
   },
-  "pre-commit": ["test"],
+  "pre-commit": [
+    "test"
+  ],
   "devDependencies": {
     "@testing-library/react-hooks": "^3.2.1",
-    "@types/babel__core": "^7.1.7",
-    "@types/babel__template": "^7.0.2",
     "@types/jest": "^25.2.1",
     "jest": "^25.3.0",
     "jest-dom": "^4.0.0",

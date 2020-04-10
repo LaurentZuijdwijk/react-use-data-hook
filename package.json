@@ -1,0 +1,29 @@
+{
+  "name": "react-use-data-hook",
+  "version": "0.1.0",
+  "description": "Hook to fetch and re-fetch data from an api service",
+  "main": "index.js",
+  "scripts": {
+    "test": "yarn test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LaurentZuijdwijk/react-use-data-hook.git"
+  },
+  "keywords": [
+    "React",
+    "hook",
+    "api",
+    "service",
+    "fetch"
+  ],
+  "author": "Laurent Zuijdwijk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LaurentZuijdwijk/react-use-data-hook/issues"
+  },
+  "homepage": "https://github.com/LaurentZuijdwijk/react-use-data-hook#readme",
+  "dependencies": {
+    "react": "^16.13.1"
+  }
+}

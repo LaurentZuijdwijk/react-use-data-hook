@@ -78,6 +78,7 @@ function useFetchDataHook(_a) {
                         e_1 = _a.sent();
                         if (!cancelled) {
                             setError(e_1);
+                            setData(null);
                         }
                         return [3 /*break*/, 4];
                     case 4:

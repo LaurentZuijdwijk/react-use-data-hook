@@ -32,6 +32,7 @@ function useFetchDataHook(
       } catch (e) {
         if (!cancelled) {
           setError(e);
+          setData(null);
         }
       }
       setLoading(false);

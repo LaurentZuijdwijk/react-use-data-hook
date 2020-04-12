@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -35,20 +46,29 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 exports.__esModule = true;
 var react_1 = require("react");
-function useFetchDataHook(_a) {
+function useAsyncDataHook(_a) {
     var _this = this;
-    var fn = _a.fn, _b = _a.initialFetch, initialFetch = _b === void 0 ? true : _b;
+    var fn = _a.fn, _b = _a.initialFetch, initialFetch = _b === void 0 ? true : _b, _c = _a.debug, debug = _c === void 0 ? true : _c;
     var rest = [];
     for (var _i = 1; _i < arguments.length; _i++) {
         rest[_i - 1] = arguments[_i];
     }
-    var _c = react_1.useState(null), data = _c[0], setData = _c[1];
-    var _d = react_1.useState(false), loading = _d[0], setLoading = _d[1];
-    var _e = react_1.useState(null), error = _e[0], setError = _e[1];
-    var _f = react_1.useState(rest), args = _f[0], setArgs = _f[1];
+    var _d = react_1.useState(rest), args = _d[0], setArgs = _d[1];
     var initialFetchRef = react_1.useRef(initialFetch);
+    var _e = react_1.useState({
+        loading: false,
+        error: null,
+        data: null
+    }), state = _e[0], setState = _e[1];
     var refetch = react_1.useCallback(function () {
         var newArgs = [];
         for (var _i = 0; _i < arguments.length; _i++) {
@@ -56,34 +76,43 @@ function useFetchDataHook(_a) {
         }
         setArgs(newArgs);
     }, []);
+    var log = debug ? console.log : function () { };
     react_1.useEffect(function () {
         var cancelled = false;
         var getData = function () { return __awaiter(_this, void 0, void 0, function () {
-            var data_1, e_1;
+            var newState, data, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        setLoading(true);
+                        console.log(__assign(__assign({}, state), { loading: true }));
+                        newState = {
+                            loading: false,
+                            error: null,
+                            data: null
+                        };
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 4]);
+                        log.apply(void 0, __spreadArrays(["useAsyncDataHook -- fetch", fn.name], args));
+                        setState(__assign(__assign({}, state), { loading: true }));
                         return [4 /*yield*/, fn.apply(void 0, args)];
                     case 2:
-                        data_1 = _a.sent();
+                        data = _a.sent();
                         if (!cancelled) {
-                            setData(data_1);
+                            newState.data = data;
+                            setState(newState);
+                            log("useAsyncDataHook -- loaded", data);
                         }
                         return [3 /*break*/, 4];
                     case 3:
                         e_1 = _a.sent();
                         if (!cancelled) {
-                            setError(e_1);
-                            setData(null);
+                            log("useAsyncDataHook -- error", e_1);
+                            newState.error = e_1;
+                            setState(newState);
                         }
                         return [3 /*break*/, 4];
-                    case 4:
-                        setLoading(false);
-                        return [2 /*return*/];
+                    case 4: return [2 /*return*/];
                 }
             });
         }); };
@@ -97,7 +126,12 @@ function useFetchDataHook(_a) {
             cancelled = true;
         };
     }, [fn, args]);
-    return { data: data, loading: loading, error: error, refetch: refetch };
+    return {
+        data: state.data,
+        loading: state.loading,
+        error: state.error,
+        refetch: refetch
+    };
 }
-exports["default"] = useFetchDataHook;
+exports["default"] = useAsyncDataHook;
 //# sourceMappingURL=index.js.map

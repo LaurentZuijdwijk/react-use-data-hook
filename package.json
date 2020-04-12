@@ -4,8 +4,9 @@
   "description": "Hook to fetch and re-fetch data from an api service",
   "main": "dist/index.js",
   "scripts": {
-    "test": "yarn build && jest index.test.js",
-    "build": "tsc --project tsconfig.json"
+    "test": " npm i &&  yarn build && jest index.test.js && npm run clean",
+    "build": "tsc --project tsconfig.json",
+    "clean": "npm prune --production"
   },
   "repository": {
     "type": "git",
@@ -24,17 +25,19 @@
     "url": "https://github.com/LaurentZuijdwijk/react-use-data-hook/issues"
   },
   "homepage": "https://github.com/LaurentZuijdwijk/react-use-data-hook#readme",
-  "dependencies": {
-    "react": "^16.13.1"
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
   },
   "pre-commit": [
     "test"
   ],
   "devDependencies": {
+    "react": "^16.13.0",
     "@testing-library/react-hooks": "^3.2.1",
+    "@testing-library/jest-dom": "^5.5.0",
     "@types/jest": "^25.2.1",
     "jest": "^25.3.0",
-    "jest-dom": "^4.0.0",
     "pre-commit": "^1.2.2",
     "react-test-renderer": "^16.13.1",
     "typescript": "^3.8.3"

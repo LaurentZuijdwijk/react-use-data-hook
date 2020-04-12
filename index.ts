@@ -1,41 +1,55 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 
-type useFetchDataHookArguments = {
+type useAsyncDataHookArguments = {
   fn: (...args: any) => Promise<any>;
   initialFetch?: boolean;
+  debug?: boolean;
 };
 
-function useFetchDataHook(
-  { fn, initialFetch = true }: useFetchDataHookArguments,
+function useAsyncDataHook(
+  { fn, initialFetch = true, debug = false }: useAsyncDataHookArguments,
   ...rest
 ) {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const [args, setArgs] = useState(rest);
   const initialFetchRef = useRef(initialFetch);
+
+  const [state, setState] = useState({
+    loading: false,
+    error: null,
+    data: null,
+  });
 
   const refetch = useCallback((...newArgs) => {
     setArgs(newArgs);
   }, []);
 
+  const log = debug ? console.log : () => {};
   useEffect(() => {
     let cancelled = false;
 
     const getData = async () => {
-      setLoading(true);
+      const newState = {
+        loading: false,
+        error: null,
+        data: null,
+      };
       try {
+        log("useAsyncDataHook -- fetch", fn.name, ...args);
+        setState({ ...state, loading: true });
+
         const data = await fn(...args);
         if (!cancelled) {
-          setData(data);
+          newState.data = data;
+          setState(newState);
+          log("useAsyncDataHook -- loaded", data);
         }
       } catch (e) {
         if (!cancelled) {
-          setError(e);
-          setData(null);
+          log("useAsyncDataHook -- error", e);
+          newState.error = e;
+          setState(newState);
         }
       }
-      setLoading(false);
     };
 
     if (initialFetchRef.current) {
@@ -47,7 +61,12 @@ function useFetchDataHook(
       cancelled = true;
     };
   }, [fn, args]);
-  return { data, loading, error, refetch };
+  return {
+    data: state.data,
+    loading: state.loading,
+    error: state.error,
+    refetch,
+  };
 }
 
-export default useFetchDataHook;
+export default useAsyncDataHook;

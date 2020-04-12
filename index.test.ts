@@ -108,10 +108,6 @@ test("should use the useFetchDataHook -- cancel slow responses", async () => {
   expect(result.current.error).toBe(null);
   expect(result.current.data).toBe("data2");
 
-  await waitForNextUpdate();
-  expect(result.current.loading).toBe(false);
-  expect(result.current.error).toBe(null);
-  expect(result.current.data).toBe("data2");
 });
 
 test("should use the useFetchDataHook -- doesn't reject if cancelled", async () => {

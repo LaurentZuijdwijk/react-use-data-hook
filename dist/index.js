@@ -57,7 +57,7 @@ exports.__esModule = true;
 var react_1 = require("react");
 function useAsyncDataHook(_a) {
     var _this = this;
-    var fn = _a.fn, _b = _a.initialFetch, initialFetch = _b === void 0 ? true : _b, _c = _a.debug, debug = _c === void 0 ? true : _c;
+    var fn = _a.fn, _b = _a.initialFetch, initialFetch = _b === void 0 ? true : _b, _c = _a.debug, debug = _c === void 0 ? false : _c;
     var rest = [];
     for (var _i = 1; _i < arguments.length; _i++) {
         rest[_i - 1] = arguments[_i];
@@ -84,7 +84,6 @@ function useAsyncDataHook(_a) {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        console.log(__assign(__assign({}, state), { loading: true }));
                         newState = {
                             loading: false,
                             error: null,

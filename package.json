@@ -1,6 +1,6 @@
 {
   "name": "react-use-data-hook",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Hook to fetch and re-fetch data from an api service",
   "main": "dist/index.js",
   "scripts": {

@@ -161,12 +161,6 @@ test("should use the useFetchDataHook -- cancel slow responses", function () { r
                 expect(result.current.loading).toBe(false);
                 expect(result.current.error).toBe(null);
                 expect(result.current.data).toBe("data2");
-                return [4 /*yield*/, waitForNextUpdate()];
-            case 2:
-                _b.sent();
-                expect(result.current.loading).toBe(false);
-                expect(result.current.error).toBe(null);
-                expect(result.current.data).toBe("data2");
                 return [2 /*return*/];
         }
     });

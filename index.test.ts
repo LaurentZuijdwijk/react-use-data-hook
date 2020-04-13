@@ -5,7 +5,7 @@ test("should use the useFetchDataHook -- happy path", async () => {
   const dataFn = (id) => Promise.resolve(id * 2);
 
   const { result, waitForNextUpdate } = renderHook(() =>
-    useFetchDataHook({ fn: dataFn }, 1)
+    useFetchDataHook(dataFn, 1)
   );
   expect(result.current.loading).toBe(true);
   expect(result.current.data).toBe(null);

@@ -1,15 +1,26 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 
-type useAsyncDataHookArguments = {
+type options = {
   fn: (...args: any) => Promise<any>;
   initialFetch?: boolean;
   debug?: boolean;
 };
 
-function useAsyncDataHook(
-  { fn, initialFetch = true, debug = false }: useAsyncDataHookArguments,
-  ...rest
-) {
+type asyncDataHookArguments = options | Function;
+
+function useAsyncDataHook(options: asyncDataHookArguments, ...rest) {
+  let fn,
+    debug = false,
+    initialFetch = true;
+
+  if (typeof options === "function") {
+    fn = options;
+  } else {
+    fn = options.fn;
+    debug = options.debug ?? false;
+    initialFetch = options.initialFetch ?? true;
+  }
+
   const [args, setArgs] = useState(rest);
   const initialFetchRef = useRef(initialFetch);
 

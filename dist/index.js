@@ -55,20 +55,29 @@ var __spreadArrays = (this && this.__spreadArrays) || function () {
 };
 exports.__esModule = true;
 var react_1 = require("react");
-function useAsyncDataHook(_a) {
+function useAsyncDataHook(options) {
     var _this = this;
-    var fn = _a.fn, _b = _a.initialFetch, initialFetch = _b === void 0 ? true : _b, _c = _a.debug, debug = _c === void 0 ? false : _c;
     var rest = [];
     for (var _i = 1; _i < arguments.length; _i++) {
         rest[_i - 1] = arguments[_i];
     }
-    var _d = react_1.useState(rest), args = _d[0], setArgs = _d[1];
+    var _a, _b;
+    var fn, debug = false, initialFetch = true;
+    if (typeof options === "function") {
+        fn = options;
+    }
+    else {
+        fn = options.fn;
+        debug = (_a = options.debug) !== null && _a !== void 0 ? _a : false;
+        initialFetch = (_b = options.initialFetch) !== null && _b !== void 0 ? _b : true;
+    }
+    var _c = react_1.useState(rest), args = _c[0], setArgs = _c[1];
     var initialFetchRef = react_1.useRef(initialFetch);
-    var _e = react_1.useState({
+    var _d = react_1.useState({
         loading: false,
         error: null,
         data: null
-    }), state = _e[0], setState = _e[1];
+    }), state = _d[0], setState = _d[1];
     var refetch = react_1.useCallback(function () {
         var newArgs = [];
         for (var _i = 0; _i < arguments.length; _i++) {

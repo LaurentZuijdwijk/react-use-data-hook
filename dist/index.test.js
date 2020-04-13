@@ -45,7 +45,7 @@ test("should use the useFetchDataHook -- happy path", function () { return __awa
             case 0:
                 dataFn = function (id) { return Promise.resolve(id * 2); };
                 _a = react_hooks_1.renderHook(function () {
-                    return index_1["default"]({ fn: dataFn }, 1);
+                    return index_1["default"](dataFn, 1);
                 }), result = _a.result, waitForNextUpdate = _a.waitForNextUpdate;
                 expect(result.current.loading).toBe(true);
                 expect(result.current.data).toBe(null);

@@ -9,10 +9,10 @@ Just inject a function that returns a Promise with your data.
 ## Installation
 
 ```
-npm i react-use-data-hooks
+npm i react-use-data-hook
 ```
 ```
-yarn add react-use-data-hooks
+yarn add react-use-data-hook
 ```
 
 ## Features

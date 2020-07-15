@@ -74,7 +74,7 @@ function useAsyncDataHook(options) {
     var _c = react_1.useState(rest), args = _c[0], setArgs = _c[1];
     var initialFetchRef = react_1.useRef(initialFetch);
     var _d = react_1.useState({
-        loading: false,
+        loading: initialFetch,
         error: null,
         data: null
     }), state = _d[0], setState = _d[1];
@@ -89,11 +89,11 @@ function useAsyncDataHook(options) {
     react_1.useEffect(function () {
         var cancelled = false;
         var getData = function () { return __awaiter(_this, void 0, void 0, function () {
-            var newState, data, e_1;
+            var doneState, data, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        newState = {
+                        doneState = {
                             loading: false,
                             error: null,
                             data: null
@@ -107,8 +107,8 @@ function useAsyncDataHook(options) {
                     case 2:
                         data = _a.sent();
                         if (!cancelled) {
-                            newState.data = data;
-                            setState(newState);
+                            doneState.data = data;
+                            setState(doneState);
                             log("useAsyncDataHook -- loaded", data);
                         }
                         return [3 /*break*/, 4];
@@ -116,8 +116,8 @@ function useAsyncDataHook(options) {
                         e_1 = _a.sent();
                         if (!cancelled) {
                             log("useAsyncDataHook -- error", e_1);
-                            newState.error = e_1;
-                            setState(newState);
+                            doneState.error = e_1;
+                            setState(doneState);
                         }
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];

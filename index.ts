@@ -25,7 +25,7 @@ function useAsyncDataHook(options: asyncDataHookArguments, ...rest) {
   const initialFetchRef = useRef(initialFetch);
 
   const [state, setState] = useState({
-    loading: false,
+    loading: initialFetch,
     error: null,
     data: null,
   });
@@ -39,7 +39,7 @@ function useAsyncDataHook(options: asyncDataHookArguments, ...rest) {
     let cancelled = false;
 
     const getData = async () => {
-      const newState = {
+      const doneState = {
         loading: false,
         error: null,
         data: null,
@@ -48,17 +48,18 @@ function useAsyncDataHook(options: asyncDataHookArguments, ...rest) {
         log("useAsyncDataHook -- fetch", fn.name, ...args);
         setState({ ...state, loading: true });
 
+        // execute the async function to get data
         const data = await fn(...args);
         if (!cancelled) {
-          newState.data = data;
-          setState(newState);
+          doneState.data = data;
+          setState(doneState);
           log("useAsyncDataHook -- loaded", data);
         }
       } catch (e) {
         if (!cancelled) {
           log("useAsyncDataHook -- error", e);
-          newState.error = e;
-          setState(newState);
+          doneState.error = e;
+          setState(doneState);
         }
       }
     };

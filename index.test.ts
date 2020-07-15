@@ -60,6 +60,45 @@ test("should use the useFetchDataHook -- without initial fetch", async () => {
   expect(result.current.loading).toBe(false);
 });
 
+test("should use the useFetchDataHook -- with initial fetch", async () => {
+  let cnt = 0;
+  const dataFn = (id) => {
+    cnt++;
+    return Promise.resolve("some data" + cnt);
+  };
+  const { result, waitForNextUpdate } = renderHook(() =>
+    useFetchDataHook({ fn: dataFn, initialFetch: true })
+  );
+  expect(result.current.loading).toBe(true);
+  expect(result.current.data).toBe(null);
+  expect(result.current.error).toBe(null);
+
+  await waitForNextUpdate();
+  expect(result.current.data).toBe("some data1");
+  expect(result.current.loading).toBe(false);
+
+
+  act(() => {
+    result.current.refetch();
+  });
+
+  expect(result.current.loading).toBe(true);
+
+  await waitForNextUpdate();
+  expect(result.current.data).toBe("some data2");
+  expect(result.current.loading).toBe(false);
+
+  act(() => {
+    result.current.refetch();
+  });
+
+  expect(result.current.loading).toBe(true);
+
+  await waitForNextUpdate();
+  expect(result.current.data).toBe("some data3");
+  expect(result.current.loading).toBe(false);
+});
+
 test("should use the useFetchDataHook -- service rejects", async () => {
   const dataFn = (id) => Promise.reject("Oops, error");
 

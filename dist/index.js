@@ -74,7 +74,7 @@ function useAsyncDataHook(options) {
     var _c = react_1.useState(rest), args = _c[0], setArgs = _c[1];
     var initialFetchRef = react_1.useRef(initialFetch);
     var _d = react_1.useState({
-        loading: false,
+        loading: initialFetch,
         error: null,
         data: null
     }), state = _d[0], setState = _d[1];

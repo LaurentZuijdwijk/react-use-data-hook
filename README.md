@@ -58,7 +58,8 @@ function MyComponent({id}){
     const options = { 
         fn: () => Promise.resolve({})), 
         initialFetch: false, 
-        debug: false 
+        debug: false,
+        default: []
     }
     const { data, loading, error, refetch } = useDataHook(options, asyncParameters);
 
@@ -88,6 +89,7 @@ The asyncParameters can be one or more arguments that will be used to call the a
 | **fn** | undefined | true | Async function that returns a Promise
 | **initialFetch** | false | false | Should a request be made on mount
 | **debug** | false | false | Console log debug information
+| **default** | null | false | optional default value
 
 Look at the example in the ./example folder for a type-ahead input field using this hook.
 

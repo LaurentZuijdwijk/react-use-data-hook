@@ -27,7 +27,7 @@ function useAsyncDataHook(options: asyncDataHookArguments, ...rest) {
   const [state, setState] = useState({
     loading: initialFetch,
     error: null,
-    data: null,
+    data: options.default || null,
   });
 
   const refetch = useCallback((...newArgs) => {

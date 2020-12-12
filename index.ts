@@ -4,6 +4,7 @@ type options = {
   fn: (...args: any) => Promise<any>;
   initialFetch?: boolean;
   debug?: boolean;
+  default?: any;
 };
 
 type asyncDataHookArguments = options | Function;
@@ -11,6 +12,7 @@ type asyncDataHookArguments = options | Function;
 function useAsyncDataHook(options: asyncDataHookArguments, ...rest) {
   let fn,
     debug = false,
+    defaultValue = null,
     initialFetch = true;
 
   if (typeof options === "function") {
@@ -19,6 +21,7 @@ function useAsyncDataHook(options: asyncDataHookArguments, ...rest) {
     fn = options.fn;
     debug = options.debug ?? false;
     initialFetch = options.initialFetch ?? true;
+    defaultValue = options?.default ?? null;
   }
 
   const [args, setArgs] = useState(rest);
@@ -27,7 +30,7 @@ function useAsyncDataHook(options: asyncDataHookArguments, ...rest) {
   const [state, setState] = useState({
     loading: initialFetch,
     error: null,
-    data: options.default || null,
+    data: defaultValue,
   });
 
   const refetch = useCallback((...newArgs) => {

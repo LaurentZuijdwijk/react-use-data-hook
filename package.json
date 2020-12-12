@@ -1,6 +1,6 @@
 {
   "name": "react-use-data-hook",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "description": "Hook to fetch and re-fetch data from an api service",
   "main": "dist/index.js",
   "scripts": {
@@ -26,8 +26,7 @@
   },
   "homepage": "https://github.com/LaurentZuijdwijk/react-use-data-hook#readme",
   "peerDependencies": {
-    "react": ">=16.8.0",
-    "react-dom": ">=16.8.0"
+    "react": ">=16.8.0"
   },
   "pre-commit": [
     "test"

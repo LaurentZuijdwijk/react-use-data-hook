@@ -61,8 +61,8 @@ function useAsyncDataHook(options) {
     for (var _i = 1; _i < arguments.length; _i++) {
         rest[_i - 1] = arguments[_i];
     }
-    var _a, _b;
-    var fn, debug = false, initialFetch = true;
+    var _a, _b, _c;
+    var fn, debug = false, defaultValue = null, initialFetch = true;
     if (typeof options === "function") {
         fn = options;
     }
@@ -70,14 +70,15 @@ function useAsyncDataHook(options) {
         fn = options.fn;
         debug = (_a = options.debug) !== null && _a !== void 0 ? _a : false;
         initialFetch = (_b = options.initialFetch) !== null && _b !== void 0 ? _b : true;
+        defaultValue = (_c = options === null || options === void 0 ? void 0 : options["default"]) !== null && _c !== void 0 ? _c : null;
     }
-    var _c = react_1.useState(rest), args = _c[0], setArgs = _c[1];
+    var _d = react_1.useState(rest), args = _d[0], setArgs = _d[1];
     var initialFetchRef = react_1.useRef(initialFetch);
-    var _d = react_1.useState({
+    var _e = react_1.useState({
         loading: initialFetch,
         error: null,
-        data: null
-    }), state = _d[0], setState = _d[1];
+        data: defaultValue
+    }), state = _e[0], setState = _e[1];
     var refetch = react_1.useCallback(function () {
         var newArgs = [];
         for (var _i = 0; _i < arguments.length; _i++) {

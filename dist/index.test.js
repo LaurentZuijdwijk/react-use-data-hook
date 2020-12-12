@@ -106,6 +106,41 @@ test("should use the useFetchDataHook -- without initial fetch", function () { r
         }
     });
 }); });
+test("should use the useFetchDataHook -- with default option", function () { return __awaiter(void 0, void 0, void 0, function () {
+    var cnt, dataFn, _a, result, waitForNextUpdate;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                cnt = 0;
+                dataFn = function (id) {
+                    cnt++;
+                    return Promise.resolve("some data" + cnt);
+                };
+                _a = react_hooks_1.renderHook(function () {
+                    return index_1["default"]({ fn: dataFn, initialFetch: true, "default": 'Default string' });
+                }), result = _a.result, waitForNextUpdate = _a.waitForNextUpdate;
+                expect(result.current.loading).toBe(true);
+                expect(result.current.data).toBe('Default string');
+                expect(result.current.error).toBe(null);
+                return [4 /*yield*/, waitForNextUpdate()];
+            case 1:
+                _b.sent();
+                expect(result.current.loading).toBe(false);
+                expect(result.current.data).toBe('some data1');
+                expect(result.current.error).toBe(null);
+                react_hooks_1.act(function () {
+                    result.current.refetch();
+                });
+                expect(result.current.loading).toBe(true);
+                return [4 /*yield*/, waitForNextUpdate()];
+            case 2:
+                _b.sent();
+                expect(result.current.data).toBe("some data2");
+                expect(result.current.loading).toBe(false);
+                return [2 /*return*/];
+        }
+    });
+}); });
 test("should use the useFetchDataHook -- with initial fetch", function () { return __awaiter(void 0, void 0, void 0, function () {
     var cnt, dataFn, _a, result, waitForNextUpdate;
     return __generator(this, function (_b) {
